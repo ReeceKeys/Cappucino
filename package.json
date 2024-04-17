@@ -1,0 +1,19 @@
+{
+  "name": "cappuccino",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ReeceKeys/Cappucino.git"
+  },
+  "author": "Reece Harris",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ReeceKeys/Cappucino/issues"
+  },
+  "homepage": "https://github.com/ReeceKeys/Cappucino#readme"
+}
