@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ReeceKeys/Cappucino/issues"
   },
-  "homepage": "https://github.com/ReeceKeys/Cappucino#readme"
+  "homepage": "https://github.com/ReeceKeys/Cappucino#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
 }
