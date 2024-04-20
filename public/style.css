@@ -1,0 +1,107 @@
+:root {
+    --color1: #4A2E0F;
+    --color2:  #F5F5DC;
+    --color3: #A67B5B;
+    --color4: #35281E;
+    --color5: #2B1D17;
+    --heading_font: "Josefin Slab";
+    --body_font: "Lora";
+}
+
+body {
+    background-color: var(--color2);
+}
+
+.header_container {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+    padding: 0;
+    margin: 0;
+}
+
+.header {
+    font-size: 2.5rem;
+    padding-top: 2rem;
+    font-family: var(--heading_font);
+    color: var(--color3);
+}
+.form_container {
+    padding-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    flex: space-between;
+    width: 80%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit_container { 
+    display: flex;
+    padding-top: 1.5rem;
+    justify-content: center;
+    width: 100%;
+}
+.forgot_container { 
+    display: flex;
+    padding-top: 1.5rem;
+    justify-content: center;
+    width: 100%;
+}
+.create_container { 
+    display: flex;
+    padding-top: 1.5rem;
+    justify-content: center;
+    width: 100%;
+}
+
+#username_text {
+    font-size: 2rem;
+}
+
+#password_text {
+    font-size: 2rem;
+}
+
+#username {
+    width: 100%;
+}
+
+#password {
+    width: 100%;
+}
+
+#submit {
+    width: 40%;
+    background-color: var(--color3);
+    border: 0;
+    outline: var(--color5) 3px solid;
+}
+
+#forgot {
+    width: 40%;
+    background-color: var(--color3);
+    border: 0;
+    outline: var(--color5) 3px solid;
+}
+
+#create_account {
+    width: 40%;
+    background-color: var(--color3);
+    border: 0;
+    outline: var(--color5) 3px solid;
+}
+
+.space_container {
+    height: 8rem;
+}

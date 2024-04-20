@@ -1,59 +1,55 @@
-// index.js
-
 const express = require('express');
+const { DynamoDBClient, GetItemCommand } = require('@aws-sdk/client-dynamodb');
+const { fromIni } = require('@aws-sdk/credential-provider-ini');
+const bodyParser = require('body-parser');
+const path = require('path');
+
 const app = express();
 const port = 3000;
-const path = require('path');
-const fs = require('fs');
-const AWS = require('aws-sdk');
 
-// Configure AWS SDK
-AWS.config.update({ region: 'na-west-1' }); // Replace 'your-region' with your AWS region
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Configure AWS SDK v3
+const dynamodbClient = new DynamoDBClient({
+  region: 'na-west-1', // Replace 'your-region' with your AWS region
+  credentials: fromIni(), // Load credentials from default AWS credentials file
+});
 
 // Middleware to parse JSON bodies
-app.use(express.json());
+app.use(bodyParser.json());
 
-// Serve login page
-app.get('/login', (req, res) => {
-    fs.readFile(path.join(__dirname, 'index.html'), 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading index.html:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-        res.send(data);
-    });
+// Serve index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Login route
-app.post('/login', (req, res) => {
-    const { username, password } = req.body;
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
 
-    // Define DynamoDB params
-    const params = {
-        TableName: 'login_info', // Replace 'your-dynamodb-table' with your table name
-        Key: { username: username }
-    };
+  // Define DynamoDB command
+  const params = {
+    TableName: 'login_info', // Replace 'your-dynamodb-table' with your table name
+    Key: { username: { S: username } }
+  };
+  const command = new GetItemCommand(params);
 
-    // Get user from DynamoDB
-    dynamodb.get(params, (err, data) => {
-        if (err) {
-            console.error('Error fetching user from DynamoDB:', err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+  try {
+    const { Item } = await dynamodbClient.send(command);
 
-        // Check if user exists and password matches
-        if (data.Item && data.Item.password === password) {
-            res.send('Login successful');
-        } else {
-            res.status(401).send('Invalid username or password');
-        }
-    });
+    // Check if user exists and password matches
+    if (Item && Item.password.S === password) {
+      res.sendStatus(200); // Success
+    } else {
+      res.sendStatus(401); // Unauthorized
+    }
+  } catch (err) {
+    console.error('Error fetching user from DynamoDB:', err);
+    res.sendStatus(500); // Internal Server Error
+  }
 });
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
