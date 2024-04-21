@@ -6,6 +6,16 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
+const dns = require('dns');
+
+dns.lookup('dynamodb.na-west-1.amazonaws.com', (err, address) => {
+    if (err) {
+        console.error('DNS lookup failed:', err);
+    } else {
+        console.log('Resolved IP address:', address);
+    }
+});
+
 // Configure AWS SDK v3
 const dynamodbClient = new DynamoDBClient({ region: 'us-west-1' }); // Replace 'us-west-1' with your AWS region
 
